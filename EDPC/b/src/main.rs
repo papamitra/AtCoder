@@ -8,8 +8,8 @@ fn solve(k: i64, hs: Vec<i64>) -> i64 {
     for i in 1..n {
         let m = max(i as i64 - k, 0) as usize;
         for j in m..i {
-            if dp[i] > dp[m] + (hs[j] - hs[i]).abs() {
-                dp[i] = dp[m] + (hs[j] - hs[i]).abs();
+            if dp[i] > dp[j] + (hs[i] - hs[j]).abs() {
+                dp[i] = dp[j] + (hs[i] - hs[j]).abs();
             }
         }
     }
@@ -20,6 +20,9 @@ fn solve(k: i64, hs: Vec<i64>) -> i64 {
 #[test]
 fn solve_test() {
     assert_eq!(solve(3, vec![10, 30, 40, 50, 20]), 30);
+    assert_eq!(solve(1, vec![10, 20, 10]), 20);
+    assert_eq!(solve(100, vec![10, 10]), 0);
+    assert_eq!(solve(4, vec![40, 10, 20, 70, 80, 10, 20, 70, 80, 60]), 40);
 }
 
 #[allow(unused_macros)]
