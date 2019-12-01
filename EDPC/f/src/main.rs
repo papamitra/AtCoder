@@ -4,27 +4,19 @@ fn solve(s: &str, t: &str) -> String {
     let s = s.chars().collect::<Vec<_>>();
     let t = t.chars().collect::<Vec<_>>();
 
-    #[derive(Clone)]
-    enum Src {
-        INV,
-        UL,
-        L,
-        U,
-    }
-
-    let mut dp = vec![vec![(0, Src::INV); tn + 1]; sn + 1];
+    let mut dp = vec![vec![0; tn + 1]; sn + 1];
 
     for i in 0..sn {
         let sc = s[i];
         for j in 0..tn {
             let tc = t[j];
             if sc == tc {
-                dp[i + 1][j + 1] = (dp[i][j].0 + 1, Src::UL);
+                dp[i + 1][j + 1] = dp[i][j] + 1
             } else {
-                if dp[i][j + 1].0 > dp[i + 1][j].0 {
-                    dp[i + 1][j + 1] = (dp[i][j + 1].0, Src::U);
+                if dp[i][j + 1] > dp[i + 1][j] {
+                    dp[i + 1][j + 1] = dp[i][j + 1];
                 } else {
-                    dp[i + 1][j + 1] = (dp[i + 1][j].0, Src::L);
+                    dp[i + 1][j + 1] = dp[i + 1][j];
                 }
             }
         }
@@ -35,19 +27,14 @@ fn solve(s: &str, t: &str) -> String {
     let mut ans = "".to_owned();
 
     while i > 0 && j > 0 {
-        match dp[i][j].1 {
-            Src::UL => {
-                ans.push(s[i - 1]);
-                i -= 1;
-                j -= 1;
-            }
-            Src::L => {
-                j -= 1;
-            }
-            Src::U => {
-                i -= 1;
-            }
-            Src::INV => unreachable!(),
+        if s[i - 1] == t[j - 1] {
+            ans.push(s[i - 1]);
+            i -= 1;
+            j -= 1;
+        } else if dp[i][j] == dp[i][j - 1] {
+            j -= 1;
+        } else {
+            i -= 1;
         }
     }
 
