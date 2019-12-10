@@ -14,7 +14,7 @@ fn solve(aa: Vec<u64>) -> u64 {
             }
         }
 
-        ans += (((cnt1 * (n - cnt1)) as u64) << i) % MOD;
+        ans += ((1u64 << i) % MOD) * ((cnt1 * (n - cnt1)) as u64 % MOD);
         ans %= MOD;
     }
 
