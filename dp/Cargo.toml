@@ -1,0 +1,12 @@
+[dependencies.proconio]
+features = ['derive']
+version = '*'
+
+[package]
+authors = ['papamitra <papamitra@gmail.com>']
+edition = '2018'
+name = 'dp'
+version = '0.1.0'
+[profile.release]
+lto = true
+panic = 'abort'
